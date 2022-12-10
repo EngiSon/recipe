@@ -7,14 +7,14 @@
         public User Author { get; set; }
         public string Name { get; set; }
         public FoodType FoodType { get; set; }
-        public List<string> Ingredients { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
         public string Description { get; set; }
         public Recipe()
         {
 
         }
 
-        public Recipe(User author, string name, string foodType, List<string> ingredients, string description)
+        public Recipe(User author, string name, string foodType, List<Ingredient> ingredients, string description)
         {
             UserId = author.Id;
             Author = author;
