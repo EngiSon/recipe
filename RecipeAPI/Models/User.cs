@@ -7,8 +7,8 @@
         public string Password { get; set; }
         public string Email { get; set; }
         public List<Recipe> Recipes { get; set; }
-        public List<User> FavoritedUsers { get; set; }
-        public List<User> UsersFavorited { get; set; }
+        public List<User> OutgoingFavorites { get; set; }
+        public List<User> IncomingFavorites { get; set; }
 
 
         public User()
@@ -22,8 +22,8 @@
             Password = password;
             Email = email;
             Recipes = new List<Recipe>();
-            FavoritedUsers= new List<User>();
-            UsersFavorited= new List<User>();
+            OutgoingFavorites = new List<User>();
+            IncomingFavorites = new List<User>();
         }
     }
 }
