@@ -5,7 +5,7 @@ using RecipeAPI.Models;
 
 namespace RecipeAPI.Controllers
 {
-    [Route("api/Recipes")]
+    [Route("api/recipes")]
     [ApiController]
     public class RecipeController : ControllerBase
     {
@@ -35,6 +35,18 @@ namespace RecipeAPI.Controllers
             return recipe;
         }
 
+        [HttpGet("users/{id}")]
+        public async Task<ActionResult<IEnumerable<Recipe>>> GetUserRecipes(int id)
+        {
+            var user = await ctx.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var recipes = await ctx.Recipes.Where(r => r.UserId == id).ToListAsync();
+            return recipes;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Recipe>> PostRecipe(RecipeDTO recipe)
         {
@@ -47,8 +59,14 @@ namespace RecipeAPI.Controllers
                 return BadRequest();
             }
 
-            var newRecipe = DTOtoItem(recipe, author);
+            var newRecipe = DTOtoItem(recipe, recipe.UserId);
 
+            if (author.Recipes == null)
+            {
+                author.Recipes = new List<Recipe>();
+            }
+
+            author.Recipes.Add(newRecipe);
             ctx.Recipes.Add(newRecipe);
             await ctx.SaveChangesAsync();
 
@@ -72,9 +90,9 @@ namespace RecipeAPI.Controllers
         }
 
 
-        private static Recipe DTOtoItem(RecipeDTO dto, User author)
+        private static Recipe DTOtoItem(RecipeDTO dto, int userId)
         {
-            return new Recipe(author, dto.Name, dto.FoodType, dto.Ingredients, dto.Description);
+            return new Recipe(userId, dto.Name, dto.FoodType, dto.Ingredients, dto.Description);
         }
 
         private static Boolean checkEnum(String foodType)

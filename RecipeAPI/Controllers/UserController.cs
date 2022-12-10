@@ -5,7 +5,7 @@ using RecipeAPI.Models;
 
 namespace RecipeAPI.Controllers
 {
-    [Route("api/Users")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -26,26 +26,26 @@ namespace RecipeAPI.Controllers
         public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await ctx.Users.FindAsync(id);
-
             if (user == null)
             {
                 return NotFound();
             }
-
             return user;
         }
 
-        [HttpGet]
+        [HttpPost("validate")]
         public async Task<ActionResult<User>> ValidateUser(ValidationDTO dto)
         {
-            var foundUser = await ctx.Users.Where(u => (u.Username == dto.Username) && (u.Password == dto.Password)).FirstAsync();
+            var isFindUser = ctx.Users.Where(u => (u.Username == dto.Username) && (u.Password == dto.Password)).Any();
 
-            if (foundUser == null)
+            if (!isFindUser)
             {
                 return BadRequest();
             }
 
+            var foundUser = await ctx.Users.Where(u => (u.Username == dto.Username) && (u.Password == dto.Password)).FirstAsync();
             return foundUser;
+
         }
 
         [HttpPost]
@@ -61,19 +61,31 @@ namespace RecipeAPI.Controllers
             ctx.Users.Add(newUser);
             await ctx.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUser), new {id = user.Id}, user);
+            return CreatedAtAction(nameof(GetUser), new {id = newUser.Id}, user);
         }
 
         [HttpPut("{favoritingUserId}/{favoritedUserId}")]
         public async Task<ActionResult> HandleFavorite(int favoritingUserId, int favoritedUserId)
         {
+            if (favoritedUserId == favoritedUserId)
+            { 
+                return BadRequest(); 
+            }
             var favoritingUser = await ctx.Users.FindAsync(favoritingUserId);
             var favoritedUser = await ctx.Users.FindAsync(favoritedUserId);
 
             if (favoritingUser == null ||
                 favoritedUser == null)
             {
-                return BadRequest();
+                return NotFound();
+            }
+            if (favoritingUser.OutgoingFavorites == null)
+            {
+                favoritingUser.OutgoingFavorites = new List<User>();
+            }
+            if (favoritedUser.IncomingFavorites == null)
+            {
+                favoritedUser.IncomingFavorites = new List<User>();
             }
 
             favoritingUser.OutgoingFavorites.Add(favoritedUser);
@@ -81,7 +93,7 @@ namespace RecipeAPI.Controllers
 
            await ctx.SaveChangesAsync();
 
-            return NoContent();
+           return NoContent();
         }
 
         private static User DTOtoItem(UserDTO dto)

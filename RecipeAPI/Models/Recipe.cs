@@ -4,7 +4,6 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public User Author { get; set; }
         public string Name { get; set; }
         public FoodType FoodType { get; set; }
         public string Ingredients { get; set; }
@@ -14,10 +13,9 @@
 
         }
 
-        public Recipe(User author, string name, string foodType, String ingredients, string description)
+        public Recipe(int userId, string name, string foodType, String ingredients, string description)
         {
-            UserId = author.Id;
-            Author = author;
+            UserId = userId;
             Name = name;
             FoodType = (FoodType) Enum.Parse(typeof(FoodType), foodType, true);
             Ingredients = ingredients;
