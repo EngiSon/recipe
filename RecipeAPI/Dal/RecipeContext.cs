@@ -20,8 +20,6 @@ namespace RecipeAPI.Dal
             modelBuilder.Entity<Recipe>().Property(x => x.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Recipe>().Property(x => x.UserId).IsRequired();
 
-            modelBuilder.Entity<Ingredient>().HasKey(x => x.Id);
-
             base.OnModelCreating(modelBuilder);
         }
     }
