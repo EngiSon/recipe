@@ -4,9 +4,10 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public User Author { get; set; }
         public string? Name { get; set; }
-        public FoodType[]? FoodType { get; set; }
-        public string[]? Ingredients { get; set; }
+        public List<FoodType>? FoodType { get; set; }
+        public List<string>? Ingredients { get; set; }
         public string? Description { get; set; }
     }
 
