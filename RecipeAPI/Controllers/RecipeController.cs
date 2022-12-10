@@ -82,7 +82,8 @@ namespace RecipeAPI.Controllers
             try
             {
                 Enum.Parse(typeof(FoodType), foodType, true);
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 return false;
             }
