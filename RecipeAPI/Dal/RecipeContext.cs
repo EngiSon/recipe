@@ -13,15 +13,14 @@ namespace RecipeAPI.Dal
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-            .HasKey(x => x.Id);
-            modelBuilder.Entity<User>()
-            .Property(x => x.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<User>().HasKey(x => x.Id);
+            modelBuilder.Entity<User>().Property(x => x.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<User>().HasMany(x => x.FavoritedUsers);
+            modelBuilder.Entity<User>().HasMany(x => x.UsersFavorited);
 
-            modelBuilder.Entity<Recipe>()
-            .HasKey(x => x.Id);
-            modelBuilder.Entity<Recipe>()
-            .Property(x => x.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Recipe>().HasKey(x => x.Id);
+            modelBuilder.Entity<Recipe>().Property(x => x.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Recipe>().Property(x => x.UserId).IsRequired();
 
             base.OnModelCreating(modelBuilder);
         }
