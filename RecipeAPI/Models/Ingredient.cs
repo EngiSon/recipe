@@ -3,6 +3,11 @@
     public class Ingredient
     {
         public int Id { get; set; }
-        public string Ingredient { get; set; }
+        public string IngredientName { get; set; }
+
+        public Ingredient(string ingredientName)
+        {
+            IngredientName = ingredientName;
+        }
     }
 }
