@@ -1,0 +1,20 @@
+<div class="container card">
+  <table class="table" *ngIf="recipes">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Food Type</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let recipe of recipes">
+        <td>{{ recipe.name }}</td>
+        <td>{{ foodType.foodType[recipe.foodType] }}</td>
+        <td>
+          <button type="button" class="btn btn-primary">View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

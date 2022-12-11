@@ -1,8 +1,11 @@
-export enum FoodType
+export class FoodType
 {
-  Default = 0,
-  Vegan = 1,
-  Vegetarian = 2,
-  Pesciterian = 3,
-  Glutenfree = 4
+  public foodType =
+  {
+    0 : "Default",
+    1 : "Vegan",
+    2 : "Vegetarian",
+    3 : "Pesciterian",
+    4 : "Glutenfree"
+  }
 }

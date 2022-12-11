@@ -5,7 +5,7 @@ export class Recipe
   public id: number
   public userId: number
   public name: string
-  public foodType: FoodType
+  public foodType: number
   public ingredients: string
   public description: string
 
@@ -14,8 +14,8 @@ export class Recipe
     this.id = id
     this.userId = userId
     this.name = name
-    this.foodType = foodType,
-    this.ingredients = ingredients,
+    this.foodType = foodType
+    this.ingredients = ingredients
     this.description = description
   }
 }
