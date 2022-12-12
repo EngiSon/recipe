@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Recipe } from '../model/Recipe';
 import { RecipeApiService } from '../service/recipe-api.service';
 
@@ -11,15 +11,14 @@ import { RecipeApiService } from '../service/recipe-api.service';
 })
 export class RecipeAddComponent implements OnInit {
 
-  recipe: Recipe =
-  {
-    id: 0,
-    userId: 1,
-    name: "",
-    foodType: 0,
-    ingredients: "",
-    description: ""
-  }
+  recipeForm: FormGroup = new FormGroup(
+    {
+      name: new FormControl('', [Validators.required, , Validators.minLength(3)]),
+      foodType: new FormControl(0),
+      ingredients: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(3)])
+    }
+  )
 
   constructor(
     private apiSvc: RecipeApiService,
@@ -31,7 +30,16 @@ export class RecipeAddComponent implements OnInit {
 
   addNewRecipe(): void
   {
-    this.apiSvc.addNewRecipe(this.recipe)
+    const recipe =
+    {
+      id: 0,
+      userId: 1,
+      name: this.recipeForm.get('name').value,
+      foodType: this.recipeForm.get('foodType').value,
+      ingredients: this.recipeForm.get('ingredients').value,
+      description: this.recipeForm.get('description').value
+    }
+    this.apiSvc.addNewRecipe(recipe)
     this.goBack()
   }
 

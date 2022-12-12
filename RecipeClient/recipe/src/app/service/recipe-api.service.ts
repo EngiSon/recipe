@@ -38,4 +38,9 @@ export class RecipeApiService {
     return firstValueFrom(this.http.get<User>(this.uri + "users/" + id))
   }
 
+  public addNewUser(user: User): Promise<any>
+  {
+    return firstValueFrom(this.http.post(this.uri + "users", user))
+  }
+
 }

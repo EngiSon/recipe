@@ -8,20 +8,23 @@ import { RecipeApiService } from './service/recipe-api.service';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
 import { RecipeDetailedComponent } from './recipe-detailed/recipe-detailed.component';
 import { RecipeAddComponent } from './recipe-add/recipe-add.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RecipeListComponent,
     RecipeDetailedComponent,
-    RecipeAddComponent
+    RecipeAddComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     RecipeApiService

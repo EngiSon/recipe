@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RecipeAddComponent } from './recipe-add/recipe-add.component';
 import { RecipeDetailedComponent } from './recipe-detailed/recipe-detailed.component';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'recipe/add',
     component: RecipeAddComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   }
 ];
 
