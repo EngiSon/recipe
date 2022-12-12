@@ -1,4 +1,11 @@
 <div class="container card">
+  <nav class="navbar">
+    <a class="navbar-brand" href="#">Recipe</a>
+    <a class="nav-link" routerLink="/recipe/add">Add Recipe</a>
+    <a class="nav-link" routerLink="/register">Register</a>
+    <a class="nav-link" routerLink="/login">Login</a>
+    <a class="nav-link" routerLink="/logout">Log Out</a>
+  </nav>
   <table class="table" *ngIf="recipes">
     <thead>
       <tr>
@@ -9,11 +16,10 @@
     </thead>
     <tbody>
       <tr *ngFor="let recipe of recipes">
-        <td>{{ recipe.name }}</td>
-        <td>{{ foodType.foodType[recipe.foodType] }}</td>
         <td>
-          <button type="button" class="btn btn-primary">View</button>
+          <button type="button" class="btn btn-link" routerLink="/recipes/{{recipe.id}}">{{recipe.name}}</button>
         </td>
+        <td>{{ foodType.foodType[recipe.foodType] }}</td>
       </tr>
     </tbody>
   </table>
