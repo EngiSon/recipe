@@ -1,4 +1,4 @@
-class ValidationDTO
+export class ValidationDTO
 {
   public username: string
   public password: string

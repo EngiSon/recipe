@@ -1,11 +1,18 @@
 <div class="container card">
-  <nav class="navbar">
-    <a class="navbar-brand" href="#">Recipe</a>
-    <a class="nav-link" routerLink="/recipe/add">Add Recipe</a>
-    <a class="nav-link" routerLink="/register">Register</a>
-    <a class="nav-link" routerLink="/login">Login</a>
-    <a class="nav-link" routerLink="/logout">Log Out</a>
-  </nav>
+  <div *ngIf="userId == 0; else loggedIn">
+    <nav class="navbar">
+      <a class="navbar-brand" href="#">Recipe</a>
+      <a class="nav-link" routerLink="/register">Register</a>
+      <a class="nav-link" routerLink="/login">Login</a>
+    </nav>
+  </div>
+  <ng-template #loggedIn>
+    <nav class="navbar">
+      <a class="navbar-brand" href="#">Recipe</a>
+      <a class="nav-link" routerLink="/recipe/add">Add Recipe</a>
+      <a class="nav-link" routerLink="/logout" (click)="logoutUser()">Log Out</a>
+    </nav>
+  </ng-template>
   <table class="table" *ngIf="recipes">
     <thead>
       <tr>

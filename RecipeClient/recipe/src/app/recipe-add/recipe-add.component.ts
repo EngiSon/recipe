@@ -1,7 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Recipe } from '../model/Recipe';
 import { RecipeApiService } from '../service/recipe-api.service';
 
 @Component({
@@ -33,7 +32,7 @@ export class RecipeAddComponent implements OnInit {
     const recipe =
     {
       id: 0,
-      userId: 1,
+      userId: this.apiSvc.getLoggedInUserId(),
       name: this.recipeForm.get('name').value,
       foodType: this.recipeForm.get('foodType').value,
       ingredients: this.recipeForm.get('ingredients').value,

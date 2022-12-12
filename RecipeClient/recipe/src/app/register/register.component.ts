@@ -1,6 +1,5 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { User } from '../model/User';
 import { RecipeApiService } from '../service/recipe-api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 

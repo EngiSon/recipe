@@ -10,6 +10,7 @@ import { RecipeDetailedComponent } from './recipe-detailed/recipe-detailed.compo
 import { RecipeAddComponent } from './recipe-add/recipe-add.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RegisterComponent } from './register/register.component';
     RecipeListComponent,
     RecipeDetailedComponent,
     RecipeAddComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

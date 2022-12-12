@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Recipe } from '../model/Recipe';
 import { User } from '../model/User';
+import { ValidationDTO } from '../model/ValidationDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeApiService {
+
+  private loggedInUserId: number = 0
 
   private readonly uri: string = "http://localhost:5159/api/"
 
@@ -41,6 +44,28 @@ export class RecipeApiService {
   public addNewUser(user: User): Promise<any>
   {
     return firstValueFrom(this.http.post(this.uri + "users", user))
+  }
+
+  public validateUser(loginfo: ValidationDTO): Promise<User>
+  {
+    return firstValueFrom(this.http.post<User>(this.uri + "users/validate", loginfo))
+  }
+
+  public logInUser(userId: number)
+  {
+    this.loggedInUserId = userId
+    return userId
+  }
+
+  public logOutUser()
+  {
+    this.loggedInUserId = null
+    return true
+  }
+
+  public getLoggedInUserId()
+  {
+    return this.loggedInUserId
   }
 
 }

@@ -12,8 +12,8 @@ import { User } from '../model/User';
 })
 export class RecipeDetailedComponent implements OnInit {
 
-  recipe: Recipe | undefined
-  author: User | undefined
+  recipe: Recipe
+  author: User
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +29,7 @@ export class RecipeDetailedComponent implements OnInit {
   getRecipe(): void
   {
     const id = parseInt(this.route.snapshot.paramMap.get('id'))
-    this.apiSvc.getRecipe(id).then(recipe => this.recipe = recipe)
+    this.apiSvc.getRecipe(id).then(recipe => {return recipe})
   }
 
   getUser(): void
