@@ -53,7 +53,8 @@ namespace RecipeAPI.Controllers
             var author = ctx.Users.Find(recipe.UserId);
 
             if (author == null ||
-                !checkEnum(recipe.FoodType)
+                recipe.FoodType > 4 ||
+                recipe.FoodType < 0
                 )
             {
                 return BadRequest();
@@ -92,20 +93,7 @@ namespace RecipeAPI.Controllers
 
         private static Recipe DTOtoItem(RecipeDTO dto, int userId)
         {
-            return new Recipe(userId, dto.Name, dto.FoodType, dto.Ingredients, dto.Description);
-        }
-
-        private static Boolean checkEnum(String foodType)
-        {
-            try
-            {
-                Enum.Parse(typeof(FoodType), foodType, true);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
+            return new Recipe(userId, dto.Name, (FoodType) dto.FoodType, dto.Ingredients, dto.Description);
         }
     }
 }
