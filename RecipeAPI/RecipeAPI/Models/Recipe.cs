@@ -8,7 +8,7 @@
         public FoodType FoodType { get; set; }
         public string Ingredients { get; set; }
         public string Description { get; set; }
-        public Recipe(int userId)
+        public Recipe()
         {
 
         }
