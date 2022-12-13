@@ -69,6 +69,10 @@ export class RecipeApiService {
 
   public getLoggedInUserId(): number
   {
+    if (getCookie('recipeLoggedInUserId') == undefined)
+    {
+      this.logOutUser()
+    }
     return parseInt(getCookie('recipeLoggedInUserId'))
   }
 

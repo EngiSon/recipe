@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../model/Recipe';
 import { RecipeApiService } from '../service/recipe-api.service';
 import { FoodType } from '../model/FoodType';
+import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'rec-recipe-list',
@@ -18,59 +19,54 @@ export class RecipeListComponent implements OnInit {
                 {id:3, label:'Pesciterian', checked:true},
                 {id:4, label:'Glutenfree', checked:true}]
   userId: number = this.apiSvc.getLoggedInUserId()
-  recipes: Recipe[] | undefined;
+  recipes: Recipe[];
   search: string;
-  recipeStorage : Recipe[] = [];
+  recipeStorage: Recipe[] = [];
   typeFiltered: Recipe[] = [];
   termFiltered: Recipe[] = [];
   foodType: FoodType = new FoodType();
 
   async ngOnInit(): Promise<void> {
-    await new Promise(f => setTimeout(f, 100));
+    await new Promise(f => setTimeout(f, 500));
     this.getAllRecipes()
   }
 
   getAllRecipes(): void
   {
-    this.apiSvc.getAllRecipes().then(recipes => this.recipes = recipes);
+    this.apiSvc.getAllRecipes().then(recipes =>
+      {
+        this.recipes = recipes
+        this.recipeStorage = recipes
+        this.termFiltered = recipes
+        this.typeFiltered = recipes
+      });
+  }
+
+  handleIntersection(): void
+  {
+    this.recipeStorage = this.termFiltered.filter(r => this.typeFiltered.some(r2 => r.id == r2.id))
   }
 
   doSearch(): void
   {
-    let filteredRecipes: Recipe[] = [];
-    if(this.recipeStorage.length > 0)
-    {
-      this.recipes = JSON.parse(JSON.stringify(this.recipeStorage))
-    }
-    if(this.typeFiltered.length > 0)
-    {
-      this.recipes = JSON.parse(JSON.stringify(this.typeFiltered))
-    }
+    let filteredRecipes: Recipe[] = []
 
     filteredRecipes = this.recipes.filter(recipe => recipe.ingredients.includes(this.search));
 
-    this.recipeStorage = JSON.parse(JSON.stringify(this.recipes));
-    this.termFiltered = JSON.parse(JSON.stringify(filteredRecipes));
-    this.recipes = JSON.parse(JSON.stringify(filteredRecipes));
+    this.termFiltered = filteredRecipes
+
+    this.handleIntersection()
   }
+
   onCheckChange($event): void
   {
     let filteredRecipes: Recipe[] = [];
-
-    if(this.recipeStorage.length > 0)
-    {
-      this.recipes = JSON.parse(JSON.stringify(this.recipeStorage))
-    }
-    if(this.termFiltered.length > 0)
-    {
-      this.recipes = JSON.parse(JSON.stringify(this.termFiltered))
-    }
 
     this.checkBoxes[$event['path'][0]['id']].checked = $event['path'][0]['checked']
 
     this.checkBoxes.forEach(cbox =>
     {
-      this.recipes.forEach( recipe =>
+      this.recipes.forEach(recipe =>
       {
         if (cbox.checked == true)
         {
@@ -79,12 +75,12 @@ export class RecipeListComponent implements OnInit {
             filteredRecipes.push(recipe);
           }
         }
-
       })
     })
-    this.recipeStorage = JSON.parse(JSON.stringify(this.recipes));
-    this.typeFiltered = JSON.parse(JSON.stringify(filteredRecipes));
-    this.recipes = JSON.parse(JSON.stringify(filteredRecipes));
+
+    this.typeFiltered = filteredRecipes
+
+    this.handleIntersection()
   }
 
   logoutUser(): void

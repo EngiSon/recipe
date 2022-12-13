@@ -13,7 +13,7 @@ export class RecipeAddComponent implements OnInit {
   recipeForm: FormGroup = new FormGroup(
     {
       name: new FormControl('', [Validators.required, , Validators.minLength(3)]),
-      foodType: new FormControl(),
+      foodType: new FormControl(0),
       ingredients: new FormControl('', [Validators.required, Validators.minLength(3)]),
       description: new FormControl('', [Validators.required, Validators.minLength(3)])
     }

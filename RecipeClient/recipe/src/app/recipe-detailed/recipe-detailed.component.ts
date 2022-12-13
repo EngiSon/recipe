@@ -55,9 +55,18 @@ export class RecipeDetailedComponent implements OnInit {
     this.location.back();
   }
 
-  doFav(): void
+  async doFav(): Promise<void>
   {
-    this.apiSvc.handleFavorite(this.currentUser,this.recipe.userId).catch( () => alert("User already favorited"));
+    let noError = true
+    await this.apiSvc.handleFavorite(this.currentUser,this.recipe.userId).catch( () =>
+    {
+      alert("User already favorited")
+      noError = false
+    });
+    if (noError)
+    {
+      alert("User favorited succesfully!")
+    }
   }
 
   deleteRecipe(): void
