@@ -10,9 +10,37 @@
     <nav class="navbar">
       <a class="navbar-brand" href="#">Recipe</a>
       <a class="nav-link" routerLink="/recipe/add">Add Recipe</a>
-      <a class="nav-link" routerLink="/logout" (click)="logoutUser()">Log Out</a>
+      <a class="nav-link" routerLink="/logout" (click)="logoutUser()"
+        >Log Out</a
+      >
     </nav>
   </ng-template>
+  <div class="form-group">
+    <input
+      type="text"
+      [(ngModel)]="search"
+      (ngModelChange)="doSearch()"
+      class="form-control"
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      placeholder="Search term"
+    />
+  </div>
+  <div class="d-flex">
+    <div *ngFor="let choice of checkBoxes" class="w-100">
+      <input
+        type="checkbox"
+        class="btn-check"
+        [id]="choice.id"
+        [checked]="choice.checked"
+        (change)="onCheckChange($event)"
+        autocomplete="off"
+      />
+      <label class="btn btn-primary w-100" [for]="choice.id">{{
+        choice.label
+      }}</label>
+    </div>
+  </div>
   <table class="table" *ngIf="recipes">
     <thead>
       <tr>
@@ -24,7 +52,13 @@
     <tbody>
       <tr *ngFor="let recipe of recipes">
         <td>
-          <button type="button" class="btn btn-link" routerLink="/recipes/{{recipe.id}}">{{recipe.name}}</button>
+          <button
+            type="button"
+            class="btn btn-link"
+            routerLink="/recipes/{{ recipe.id }}"
+          >
+            {{ recipe.name }}
+          </button>
         </td>
         <td>{{ foodType.foodType[recipe.foodType] }}</td>
       </tr>

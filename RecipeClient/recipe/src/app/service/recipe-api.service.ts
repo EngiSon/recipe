@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { getCookie, setCookie } from 'typescript-cookie';
 import { Recipe } from '../model/Recipe';
 import { User } from '../model/User';
 import { ValidationDTO } from '../model/ValidationDTO';
@@ -9,8 +10,6 @@ import { ValidationDTO } from '../model/ValidationDTO';
   providedIn: 'root'
 })
 export class RecipeApiService {
-
-  private loggedInUserId: number = 0
 
   private readonly uri: string = "http://localhost:5159/api/"
 
@@ -21,7 +20,7 @@ export class RecipeApiService {
     return firstValueFrom(this.http.get<Recipe[]>(this.uri + "recipes"))
   }
 
-  public getRecipe(id: number): Promise<Recipe>
+  public getRecipe(id: number)
   {
     return firstValueFrom(this.http.get<Recipe>(this.uri + "recipes/" + id))
   }
@@ -51,21 +50,26 @@ export class RecipeApiService {
     return firstValueFrom(this.http.post<User>(this.uri + "users/validate", loginfo))
   }
 
-  public logInUser(userId: number)
+  public handleFavorite(favoritingUserId: number, favoritedUserId: number): Promise<any>
   {
-    this.loggedInUserId = userId
+    return firstValueFrom(this.http.put(this.uri + "users/" + favoritingUserId + "/" + favoritedUserId, ''))
+  }
+
+  public logInUser(userId: number): number
+  {
+    setCookie('recipeLoggedInUserId', userId)
     return userId
   }
 
-  public logOutUser()
+  public logOutUser(): boolean
   {
-    this.loggedInUserId = null
+    setCookie('recipeLoggedInUserId', 0)
     return true
   }
 
-  public getLoggedInUserId()
+  public getLoggedInUserId(): number
   {
-    return this.loggedInUserId
+    return parseInt(getCookie('recipeLoggedInUserId'))
   }
 
 }

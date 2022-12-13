@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Recipe } from '../model/Recipe';
 import { RecipeApiService } from '../service/recipe-api.service';
@@ -14,6 +14,9 @@ export class RecipeDetailedComponent implements OnInit {
 
   recipe: Recipe
   author: User
+  currentUser : number
+  dataLoaded: boolean = false;
+  sameUser : boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,20 +24,30 @@ export class RecipeDetailedComponent implements OnInit {
     private location: Location
   ) { }
 
-  ngOnInit(): void {
-    this.getRecipe()
-    this.getUser()
+  async ngOnInit(): Promise<void>
+  {
+    this.getRecipe();
+    await new Promise(f => setTimeout(f, 100));
+    this.getUser();
   }
 
-  getRecipe(): void
+  async getRecipe(): Promise<void>
   {
     const id = parseInt(this.route.snapshot.paramMap.get('id'))
-    this.apiSvc.getRecipe(id).then(recipe => {return recipe})
+    await this.apiSvc.getRecipe(id).then(
+      async data => {
+      this.recipe = data;
+      await this.apiSvc.getUser(data.userId).then(user => {
+        this.author = user
+        this.dataLoaded = true;
+      })
+    })
   }
 
-  getUser(): void
+  getUser()
   {
-    this.apiSvc.getUser(this.recipe.userId).then(user => this.author = user)
+   this.currentUser = this.apiSvc.getLoggedInUserId()
+   this.sameUser = (this.currentUser == this.recipe.userId);
   }
 
   goBack(): void
@@ -42,8 +55,17 @@ export class RecipeDetailedComponent implements OnInit {
     this.location.back();
   }
 
-  deleteRecipe()
+  doFav(): void
   {
-    this.apiSvc.deleteRecipe(this.recipe.id)
+    this.apiSvc.handleFavorite(this.currentUser,this.recipe.userId).catch( () => alert("User already favorited"));
+  }
+
+  deleteRecipe(): void
+  {
+    if (this.sameUser)
+    {
+      this.apiSvc.deleteRecipe(this.recipe.id)
+      this.goBack();
+    }
   }
 }

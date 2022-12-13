@@ -1,6 +1,6 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RecipeApiService } from '../service/recipe-api.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class RecipeAddComponent implements OnInit {
   recipeForm: FormGroup = new FormGroup(
     {
       name: new FormControl('', [Validators.required, , Validators.minLength(3)]),
-      foodType: new FormControl(0),
+      foodType: new FormControl(),
       ingredients: new FormControl('', [Validators.required, Validators.minLength(3)]),
       description: new FormControl('', [Validators.required, Validators.minLength(3)])
     }
@@ -21,7 +21,7 @@ export class RecipeAddComponent implements OnInit {
 
   constructor(
     private apiSvc: RecipeApiService,
-    private location: Location
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class RecipeAddComponent implements OnInit {
 
   goBack(): void
   {
-    this.location.back()
+    this.router.navigate(['home']);
   }
 
 }
