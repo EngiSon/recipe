@@ -26,8 +26,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  register(): void
+  async register(): Promise<void>
   {
+    let noError = true
+
     const newUser =
     {
       id: 0,
@@ -35,11 +37,16 @@ export class RegisterComponent implements OnInit {
       password: this.userForm.get('password').value,
       email: this.userForm.get('email').value
     }
-    this.apiSvc.addNewUser(newUser).catch(() =>
+    await this.apiSvc.addNewUser(newUser).catch(() =>
     {
       alert('Username or email already in use!')
+      noError = false
     })
-    this.goBack()
+
+    if (noError)
+    {
+      this.goBack()
+    }
   }
 
   goBack(): void
