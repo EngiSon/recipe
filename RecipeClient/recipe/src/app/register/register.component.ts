@@ -1,7 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RecipeApiService } from '../service/recipe-api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'rec-register',
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private apiSvc: RecipeApiService,
-    private location: Location
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -35,13 +35,16 @@ export class RegisterComponent implements OnInit {
       password: this.userForm.get('password').value,
       email: this.userForm.get('email').value
     }
-    this.apiSvc.addNewUser(newUser)
+    this.apiSvc.addNewUser(newUser).catch(() =>
+    {
+      alert('Username or email already in use!')
+    })
     this.goBack()
   }
 
   goBack(): void
   {
-    this.location.back()
+    this.router.navigate(['home']);
   }
 
 }

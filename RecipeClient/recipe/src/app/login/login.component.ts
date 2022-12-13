@@ -2,8 +2,8 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RecipeApiService } from '../service/recipe-api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { setCookie } from 'typescript-cookie';
 import { User } from '../model/User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'rec-login',
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private apiSvc: RecipeApiService,
-    private location: Location
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -37,14 +37,10 @@ export class LoginComponent implements OnInit {
       password: this.userForm.get('password').value
     }
 
-    console.log(userLogin)
-
     await this.apiSvc.validateUser(userLogin).then(user => this.loginUser = user).catch(() =>
     {
       alert('Login failed. Username or password incorrect!')
     })
-
-    console.log(this.loginUser)
 
     if (this.loginUser != undefined)
     {
@@ -55,7 +51,7 @@ export class LoginComponent implements OnInit {
 
   goBack(): void
   {
-    this.location.back()
+    this.router.navigate(['home']);
   }
 
 }
