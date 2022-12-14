@@ -27,7 +27,7 @@ export class RecipeAddComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addNewRecipe(): void
+  async addNewRecipe(): Promise<void>
   {
     const recipe =
     {
@@ -38,7 +38,7 @@ export class RecipeAddComponent implements OnInit {
       ingredients: this.recipeForm.get('ingredients').value,
       description: this.recipeForm.get('description').value
     }
-    this.apiSvc.addNewRecipe(recipe)
+    await this.apiSvc.addNewRecipe(recipe)
     this.goBack()
   }
 

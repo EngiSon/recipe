@@ -36,14 +36,14 @@ namespace RecipeAPI.Controllers
         [HttpPost("validate")]
         public async Task<ActionResult<User>> ValidateUser(ValidationDTO dto)
         {
-            var isFindUser = ctx.Users.Where(u => (u.Username == dto.Username) && (u.Password == dto.Password)).Any();
+            var isFindUser = ctx.Users.Where(u => (u.Email == dto.Email) && (u.Password == dto.Password)).Any();
 
             if (!isFindUser)
             {
                 return BadRequest();
             }
 
-            var foundUser = await ctx.Users.Where(u => (u.Username == dto.Username) && (u.Password == dto.Password)).FirstAsync();
+            var foundUser = await ctx.Users.Where(u => (u.Email == dto.Email) && (u.Password == dto.Password)).FirstAsync();
             return foundUser;
 
         }

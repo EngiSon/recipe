@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RecipeApiService } from '../service/recipe-api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -16,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   userForm: FormGroup = new FormGroup(
     {
-      username: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
     }
   )
@@ -33,7 +32,7 @@ export class LoginComponent implements OnInit {
   {
     const userLogin =
     {
-      username: this.userForm.get('username').value,
+      email: this.userForm.get('email').value,
       password: this.userForm.get('password').value
     }
 

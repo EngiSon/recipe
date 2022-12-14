@@ -1,11 +1,11 @@
 export class ValidationDTO
 {
-  public username: string
+  public email: string
   public password: string
 
-  constructor(username: string, password: string)
+  constructor(email: string, password: string)
   {
-    this.username = username
+    this.email = email
     this.password = password
   }
 }

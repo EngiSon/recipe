@@ -1,13 +1,13 @@
 <div class="container card p-5">
   <form (ngSubmit)="login()" [formGroup]="userForm">
     <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
+      <label for="email" class="form-label">Email</label>
       <input
         type="text"
         class="form-control"
-        name="username"
-        formControlName="username"
-        id="username"
+        name="email"
+        formControlName="email"
+        id="email"
       />
     </div>
     <div class="mb-3">
