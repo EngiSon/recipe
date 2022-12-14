@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../model/Recipe';
 import { RecipeApiService } from '../service/recipe-api.service';
 import { FoodType } from '../model/FoodType';
-import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'rec-recipe-list',
@@ -27,7 +26,6 @@ export class RecipeListComponent implements OnInit {
   foodType: FoodType = new FoodType();
 
   async ngOnInit(): Promise<void> {
-    await new Promise(f => setTimeout(f, 500));
     this.getAllRecipes()
   }
 
