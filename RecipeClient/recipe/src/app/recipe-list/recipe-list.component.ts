@@ -25,7 +25,8 @@ export class RecipeListComponent implements OnInit {
   termFiltered: Recipe[] = [];
   foodType: FoodType = new FoodType();
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void
+  {
     this.getAllRecipes()
   }
 

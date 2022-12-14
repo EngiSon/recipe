@@ -26,28 +26,23 @@ export class RecipeDetailedComponent implements OnInit {
 
   async ngOnInit(): Promise<void>
   {
-    this.getRecipe();
-    await new Promise(f => setTimeout(f, 100));
+    await this.getRecipe();
     this.getUser();
   }
 
   async getRecipe(): Promise<void>
   {
     const id = parseInt(this.route.snapshot.paramMap.get('id'))
-    await this.apiSvc.getRecipe(id).then(
-      async data => {
-      this.recipe = data;
-      await this.apiSvc.getUser(data.userId).then(user => {
-        this.author = user
-        this.dataLoaded = true;
-      })
-    })
+
+    await this.apiSvc.getRecipe(id).then(result => this.recipe = result)
   }
 
-  getUser()
+  async getUser(): Promise<void>
   {
-   this.currentUser = this.apiSvc.getLoggedInUserId()
-   this.sameUser = (this.currentUser == this.recipe.userId);
+    await this.apiSvc.getUser(this.recipe.userId).then(result => this.author = result)
+    this.currentUser = this.apiSvc.getLoggedInUserId()
+    this.sameUser = (this.currentUser == this.recipe.userId);
+    this.dataLoaded = true
   }
 
   goBack(): void
