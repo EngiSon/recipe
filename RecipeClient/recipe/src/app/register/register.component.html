@@ -1,0 +1,48 @@
+<form (ngSubmit)="register()" [formGroup]="userForm">
+  <div class="container card p-5">
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        name="username"
+        formControlName="username"
+        id="username"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        name="email"
+        formControlName="email"
+        id="email"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        formControlName="password"
+        id="password"
+      />
+    </div>
+    <div class="d-flex justify-content-between">
+      <div class="d-grid gap-2 col-3 mx-auto">
+        <button class="btn btn-danger" (click)="goBack()">Back</button>
+      </div>
+      <div class="d-grid gap-2 col-3 mx-auto">
+        <button
+          type="submit"
+          [disabled]="!userForm.valid"
+          class="btn btn-primary"
+        >
+          Register
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
