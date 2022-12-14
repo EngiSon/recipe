@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeAPI.Dal;
 using RecipeAPI.Models;
+using System.Net;
+using System.Net.Mail;
 
 namespace RecipeAPI.Controllers
 {
@@ -53,7 +55,8 @@ namespace RecipeAPI.Controllers
             var author = ctx.Users.Find(recipe.UserId);
 
             if (author == null ||
-                !checkEnum(recipe.FoodType)
+                recipe.FoodType > 4 ||
+                recipe.FoodType < 0
                 )
             {
                 return BadRequest();
@@ -70,7 +73,7 @@ namespace RecipeAPI.Controllers
             ctx.Recipes.Add(newRecipe);
             await ctx.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
+            return CreatedAtAction(nameof(GetRecipe), new { id = newRecipe.Id }, recipe);
         }
 
         [HttpDelete("{id}")]
@@ -92,20 +95,31 @@ namespace RecipeAPI.Controllers
 
         private static Recipe DTOtoItem(RecipeDTO dto, int userId)
         {
-            return new Recipe(userId, dto.Name, dto.FoodType, dto.Ingredients, dto.Description);
+            return new Recipe(userId, dto.Name, (FoodType) dto.FoodType, dto.Ingredients, dto.Description);
         }
 
-        private static Boolean checkEnum(String foodType)
+        private static void SendEmails(User author)
         {
-            try
+            var smtpClient = new SmtpClient("smtp.example.com")
             {
-                Enum.Parse(typeof(FoodType), foodType, true);
-            }
-            catch (Exception)
+                Port = 587,
+                Credentials = new NetworkCredential("username", "password"),
+                EnableSsl = true
+            };
+
+            foreach (User user in author.IncomingFavorites)
             {
-                return false;
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(author.Email),
+                    Subject = "New recipe uploaded by " + author.Username,
+                    Body = "<h1>" + author.Username + " uploaded!</h1>",
+                    IsBodyHtml = true
+                };
+                mailMessage.To.Add(user.Email);
+
+                smtpClient.Send(mailMessage);
             }
-            return true;
         }
     }
 }

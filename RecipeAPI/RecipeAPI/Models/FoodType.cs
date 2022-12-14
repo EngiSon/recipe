@@ -2,10 +2,10 @@
 {
     public enum FoodType
     {
-        Default,
-        Vegan,
-        Vegetarian,
-        Pescitarian,
-        Glutenfree
+        Default = 0,
+        Vegan = 1,
+        Vegetarian = 2,
+        Pescitarian = 3,
+        Glutenfree = 4
     }
 }

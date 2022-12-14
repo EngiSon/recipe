@@ -1,0 +1,22 @@
+<div *ngIf="!dataLoaded; else elseBlock">Loading...</div>
+<ng-template #elseBlock>
+  <div class="container card p-5">
+    <h2>{{ recipe.name }}</h2>
+    <p class="lead">{{ recipe.ingredients }}</p>
+    <p class="lead">{{ recipe.description }}</p>
+    <p class="lead">{{ author.username }}</p>
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-primary" (click)="goBack()">Back</button>
+      <ng-container *ngIf="currentUser != 0">
+        <ng-template #favBlock>
+          <button class="btn btn-success" (click)="doFav()">Favorite</button>
+        </ng-template>
+        <ng-container *ngIf="sameUser; else favBlock">
+          <button class="btn btn-danger" (click)="deleteRecipe()">
+            Delete
+          </button>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>

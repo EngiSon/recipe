@@ -51,7 +51,8 @@ namespace RecipeAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(UserDTO user)
         {
-            if (ctx.Users.Where(u => u.Username == user.Username).Any()) 
+            if (ctx.Users.Where(u => u.Username == user.Username).Any() ||
+                ctx.Users.Where(u => u.Email == user.Email).Any()) 
             { 
                 return BadRequest();
             }
@@ -67,7 +68,7 @@ namespace RecipeAPI.Controllers
         [HttpPut("{favoritingUserId}/{favoritedUserId}")]
         public async Task<ActionResult> HandleFavorite(int favoritingUserId, int favoritedUserId)
         {
-            if (favoritedUserId == favoritedUserId)
+            if (favoritedUserId == favoritingUserId)
             { 
                 return BadRequest(); 
             }

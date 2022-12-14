@@ -13,11 +13,11 @@
 
         }
 
-        public Recipe(int userId, string name, string foodType, String ingredients, string description)
+        public Recipe(int userId, string name, FoodType foodType, String ingredients, string description)
         {
             UserId = userId;
             Name = name;
-            FoodType = (FoodType) Enum.Parse(typeof(FoodType), foodType, true);
+            FoodType = foodType;
             Ingredients = ingredients;
             Description = description;
         }
