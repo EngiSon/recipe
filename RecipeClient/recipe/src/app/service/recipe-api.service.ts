@@ -57,6 +57,10 @@ export class RecipeApiService {
 
   public logInUser(userId: number): number
   {
+    if (this.getLoggedInUserId() != 0)
+    {
+      return null
+    }
     setCookie('recipeLoggedInUserId', userId)
     return userId
   }
